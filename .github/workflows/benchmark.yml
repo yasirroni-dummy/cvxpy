@@ -1,7 +1,7 @@
 name: benchmark
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [ master ]
 
 jobs:
@@ -29,3 +29,13 @@ jobs:
     - name: Benchmark test
       run: |
         python cvxpy/benchmarks/run_benchmarks.py
+    - name: Render benchmark_report.md
+      id: template
+      uses: chuhlomin/render-template@v1.4
+      with:
+        template: cvxpy/benchmarks/benchmark_report.md
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: ${{ steps.template.outputs.result }}
