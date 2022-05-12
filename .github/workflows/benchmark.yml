@@ -30,7 +30,7 @@ jobs:
       run: |
         python cvxpy/benchmarks/run_benchmarks.py
     - name: Render benchmark_report.md
-      id: template
+      id: benchmark_head
       uses: chuhlomin/render-template@v1.4
       with:
         template: cvxpy/benchmarks/benchmark_report.md
@@ -38,7 +38,7 @@ jobs:
       uses: peter-evans/create-or-update-comment@v2
       with:
         issue-number: ${{ github.event.pull_request.number }}
-        body: ${{ steps.template.outputs.result }}
+        body: ${{ steps.benchmark_head.outputs.result }}
 
     # Ref
     - name: Get latest release
@@ -52,7 +52,7 @@ jobs:
       run: |
         python cvxpy/benchmarks/run_benchmarks.py
     - name: Render benchmark_report.md
-      id: template
+      id: benchmark_ref
       uses: chuhlomin/render-template@v1.4
       with:
         template: cvxpy/benchmarks/benchmark_report.md
@@ -60,4 +60,4 @@ jobs:
       uses: peter-evans/create-or-update-comment@v2
       with:
         issue-number: ${{ github.event.pull_request.number }}
-        body: ${{ steps.template.outputs.result }}
+        body: ${{ steps.benchmark_ref.outputs.result }}
